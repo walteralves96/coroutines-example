@@ -2,6 +2,7 @@ package com.example.coroutinesexample.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.coroutinesexample.data.repository.BreedsRepository
 import com.example.coroutinesexample.domain.usecase.GetUserMessageUseCase
 import com.example.coroutinesexample.presentation.model.MainState
 import kotlinx.coroutines.Dispatchers
@@ -12,14 +13,18 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 
-class MainViewModel(private val getUserMessageUseCase: GetUserMessageUseCase) : ViewModel() {
+class MainViewModel(
+    private val getUserMessageUseCase: GetUserMessageUseCase,
+    private val breedsRepository: BreedsRepository
+) : ViewModel() {
 
     private val _state = MutableSharedFlow<MainState>()
     val state: SharedFlow<MainState> = _state
 
     fun onExecuteAction() {
         viewModelScope.launch(Dispatchers.IO) {
-
+            val teste = breedsRepository.getBreeds()
+            teste.status
              getUserMessageUseCase()
                  .onSuccess {
                      _state.emit(MainState(message = it))

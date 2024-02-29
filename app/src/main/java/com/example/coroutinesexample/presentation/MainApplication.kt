@@ -2,7 +2,6 @@ package com.example.coroutinesexample.presentation
 
 import android.app.Application
 import com.example.coroutinesexample.di.dataModule
-import com.example.coroutinesexample.di.domainModule
 import com.example.coroutinesexample.di.networkModule
 import com.example.coroutinesexample.di.presentationModule
 import org.koin.android.ext.koin.androidContext
@@ -14,7 +13,7 @@ class MainApplication : Application() {
 
         startKoin {
             androidContext(this@MainApplication)
-            modules(presentationModule, dataModule, networkModule, domainModule)
+            modules(presentationModule, dataModule, networkModule)
         }
     }
 }

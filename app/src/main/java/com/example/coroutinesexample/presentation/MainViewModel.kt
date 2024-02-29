@@ -2,19 +2,14 @@ package com.example.coroutinesexample.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.coroutinesexample.data.repository.BreedsRepository
-import com.example.coroutinesexample.domain.usecase.GetUserMessageUseCase
+import com.example.coroutinesexample.domain.repository.BreedsRepository
 import com.example.coroutinesexample.presentation.model.MainState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 
 class MainViewModel(
-    private val getUserMessageUseCase: GetUserMessageUseCase,
     private val breedsRepository: BreedsRepository
 ) : ViewModel() {
 
@@ -23,14 +18,7 @@ class MainViewModel(
 
     fun onExecuteAction() {
         viewModelScope.launch(Dispatchers.IO) {
-            val teste = breedsRepository.getBreeds()
-            teste.status
-             getUserMessageUseCase()
-                 .onSuccess {
-                     _state.emit(MainState(message = it))
-                 }.onFailure {
-                     _state.emit(MainState(message = "Error"))
-                 }
+            breedsRepository.getBreeds()
         }
     }
 
